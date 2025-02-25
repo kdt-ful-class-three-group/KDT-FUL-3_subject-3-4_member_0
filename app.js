@@ -1,23 +1,20 @@
 import http from "node:http";
-
-
+import fs from "node:fs";
 
 
 
 
 const server = http.createServer((request, response) => {
 
-  /**
-   * TODO : "/" url 엔드포인트에 접속 요청
-   * * end() 메서드에서 단순 plain 방식으로 텍스트 응답
-   * * 한글이 깨지지 않도록 charset=utf-8 헤더 설정
-   * * 200 상태 코드 반환
-   */
-
-
   if (request.method === 'GET') {
-    response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-    response.end("안녕 서버야?");
+    if (request.url === '/') {
+      console.log(" '/' 요청에, /public/index.html 파일 응답해주기");
+
+      const html = fs.readFileSync('./public/index.html', 'utf-8');
+
+      response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      response.end(html);
+    }
   } 
   
 });
